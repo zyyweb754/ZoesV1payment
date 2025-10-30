@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>𝗭𝗢𝗘𝗘 𝗣𝗔𝗬𝗠𝗘𝗡𝗧</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      text-align: center;
+      overflow: auto;
+    }
+    
+    body {
+      background: url('https://files.catbox.moe/2kix56.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: -1;
+    }
+    
+    .container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 20px;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    
+    .logo {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      margin: 0 auto 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+    
+    .btn {
+      background: #3ba6e4;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      margin: 8px auto;
+      font-size: 0.9em;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 1px;
+      width: 90%;
+      max-width: 250px;
+      display: block;
+    }
+    
+    .btn:hover {
+      background: #4169e1;
+      transform: scale(1.02);
+    }
+    
+    #output-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      flex-direction: column;
+    }
+    
+    #output {
+      font-size: 1.5em;
+      padding: 20px;
+      border-radius: 10px;
+      color: white;
+      text-align: center;
+      max-width: 90%;
+    }
+    
+    img {
+      max-width: 280px;
+      width: 100%;
+      margin: 15px auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+    
+    .typing {
+      border-right: .15em solid white;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      animation: typing 2s steps(30, end) forwards, blink-caret .75s step-end infinite;
+      font-family: 'Share Tech Mono', monospace;
+    }
+    
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: white; }
+    }
+    
+    .close-btn {
+      margin-top: 20px;
+      background: #e53935;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      font-family: 'Orbitron', sans-serif;
+    }
+    
+    footer {
+      margin-top: auto;
+      padding: 10px;
+      font-size: 0.7em;
+      color: #bbb;
+      font-family: 'Share Tech Mono', monospace;
+    }
+    
+    /* Welcome Page Styles */
+    #welcome-page {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 10000;
+      transition: opacity 0.5s;
+    }
+    
+    #welcome-content {
+      animation: fadeIn 1.5s;
+      width: 90%;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    
+    .welcome-title {
+      font-size: 1.8em;
+      margin-bottom: 20px;
+      font-family: 'Orbitron', sans-serif;
+      text-shadow: 0 0 10px #4169e1;
+    }
+    
+    .welcome-subtitle {
+      font-size: 1em;
+      margin-bottom: 30px;
+      font-family: 'Share Tech Mono', monospace;
+    }
+    
+    /* Payment Page Styles */
+    #payment-page {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+    
+    .payment-title {
+      margin-bottom: 25px;
+      font-size: 1.5em;
+      padding: 0 15px;
+      font-family: 'Orbitron', sans-serif;
+    }
+    
+    /* Thank You Message */
+    .thank-you {
+      font-size: 1.2em;
+      margin: 15px 0;
+      font-family: 'Share Tech Mono', monospace;
+      color: #4169e1;
+      text-shadow: 0 0 5px white;
+      display: none;
+      padding: 0 15px;
+    }
+    
+    /* Copy Notification */
+    .copy-notification {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-family: 'Share Tech Mono', monospace;
+      display: none;
+      z-index: 10001;
+      font-size: 0.9em;
+      max-width: 90%;
+    }
+
+    @media (min-width: 768px) {
+      .logo {
+        width: 120px;
+        height: 120px;
+      }
+      
+      .btn {
+        padding: 15px 25px;
+        font-size: 1em;
+        max-width: 280px;
+      }
+      
+      .payment-title {
+        font-size: 1.8em;
+      }
+      
+      .welcome-title {
+        font-size: 2.2em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+  
+  <audio id="bg-music" loop>
+    <source src="https://files.catbox.moe/19c4o8.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Copy Notification -->
+  <div class="copy-notification" id="copy-notification">Nomor berhasil disalin!</div>
+
+  <!-- Welcome Page -->
+  <div id="welcome-page">
+    <div id="welcome-content">
+      <img src="https://files.catbox.moe/pwgkup.jpg" alt="Logo" class="logo">
+      <h1 class="welcome-title">SELAMAT DATANG</h1>
+      <p class="welcome-subtitle">DI PAYMENT METHODS ZOEE</p>
+      <button class="btn" onclick="enterPaymentPage()">MASUK KE PAYMENT</button>
+    </div>
+  </div>
+
+  <!-- Payment Page -->
+  <div class="container">
+    <div id="payment-page">
+      <img src="https://files.catbox.moe/pwgkup.jpg" alt="Logo" class="logo">
+      <h1 class="payment-title">𝗭𝗢𝗘𝗘 𝗣𝗔𝗬𝗠𝗘𝗡𝗧</h1>
+      <button class="btn" onclick="copyToClipboard('0895323496553', 'DANA')">NOMOR DANA</button> 
+      <button class="btn" onclick="copyToClipboard('087843808651', 'GOPAY')">NOMOR GOPAY</button>
+      <button class="btn" onclick="copyToClipboard('-', 'OVO')">NOMOR OVO</button>
+      <button class="btn" onclick="showQRIS()">QRIS</button>
+      
+      <div class="thank-you" id="thank-you">TERIMAKASIH TELAH BERTRANSAKSI DENGAN ZOEE</div>
+    </div>
+  </div>
+
+  <div id="output-wrapper">
+    <div id="output"></div>
+    <button class="close-btn" onclick="closeOutput()">TUTUP</button>
+  </div>
+  
+  <footer>© Copyright ZOEE</footer>  
+  
+  <script>
+    function enterPaymentPage() {
+      const welcomePage = document.getElementById("welcome-page");
+      const paymentPage = document.getElementById("payment-page");
+      
+      welcomePage.style.opacity = "0";
+      
+      setTimeout(() => {
+        welcomePage.style.display = "none";
+        paymentPage.style.display = "flex";
+      }, 500);
+      
+      // Play music when entering payment page
+      const music = document.getElementById("bg-music");
+      music.play().catch(() => {});
+    }
+
+    function copyToClipboard(text, paymentMethod) {
+      navigator.clipboard.writeText(text).then(() => {
+        // Show copy notification
+        const notification = document.getElementById("copy-notification");
+        notification.textContent = `Nomor ${paymentMethod} berhasil disalin!`;
+        notification.style.display = "block";
+        
+        setTimeout(() => {
+          notification.style.display = "none";
+        }, 2000);
+        
+        // Show thank you message
+        const thankYou = document.getElementById("thank-you");
+        thankYou.style.display = "block";
+        
+        // Show the number in output
+        const wrapper = document.getElementById("output-wrapper");
+        const output = document.getElementById("output");
+        wrapper.style.display = "flex";
+        output.innerHTML = `<div class='typing'>${paymentMethod}: ${text}</div>`;
+        
+      }).catch(err => {
+        console.error('Gagal menyalin teks: ', err);
+        // Fallback if clipboard API fails
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          
+          const notification = document.getElementById("copy-notification");
+          notification.textContent = `Nomor ${paymentMethod} berhasil disalin!`;
+          notification.style.display = "block";
+          
+          setTimeout(() => {
+            notification.style.display = "none";
+          }, 2000);
+          
+          const thankYou = document.getElementById("thank-you");
+          thankYou.style.display = "block";
+          
+          const wrapper = document.getElementById("output-wrapper");
+          const output = document.getElementById("output");
+          wrapper.style.display = "flex";
+          output.innerHTML = `<div class='typing'>${paymentMethod}: ${text}</div>`;
+          
+        } catch (err) {
+          console.error('Fallback copy method failed: ', err);
+        }
+        document.body.removeChild(textArea);
+      });
+    }
+
+    function showQRIS() {
+      const wrapper = document.getElementById("output-wrapper");
+      const output = document.getElementById("output");
+      wrapper.style.display = "flex";
+      output.innerHTML = `<img src='https://files.catbox.moe/wwvcch.jpg' alt='QRIS'>`;
+      
+      // Show thank you message
+      const thankYou = document.getElementById("thank-you");
+      thankYou.style.display = "block";
+    }
+
+    function closeOutput() {
+      document.getElementById("output-wrapper").style.display = "none";
+      // Hide thank you message when closing
+      document.getElementById("thank-you").style.display = "none";
+    }
+
+    function toggleMusic() {
+      const music = document.getElementById("bg-music");
+      if (music.paused) {
+        music.play();
+      } else {
+        music.pause();
+      }
+    }
+
+    // Auto-hide welcome page after 5 seconds (optional)
+    // setTimeout(enterPaymentPage, 5000);
+  </script>
+</body>
+</html>
